@@ -1,0 +1,1077 @@
+:root {
+    --primary-color: #00ff00;
+    --primary-dark: #00cc00;
+    --background-color: #0a0e17;
+    --chat-bg: #151b28;
+    --secondary-bg: #1a2332;
+    --text-color: #e4e6eb;
+    --text-muted: #8f9299;
+    --border-color: #2a3344;
+    --message-sent: #1c4b3c;
+    --message-received: #24303f;
+    --accent-color: #00ff9d;
+    --error-color: #ff3e3e;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --neon-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: 
+        linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+/* Login Container Styles */
+#login-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.login-box {
+    background: var(--chat-bg);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-box h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: var(--neon-shadow);
+}
+
+.login-box .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+.login-icon {
+    color: var(--primary-color);
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    text-shadow: var(--neon-shadow);
+}
+
+.input-group {
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--neon-shadow);
+    outline: none;
+}
+
+/* Chat Container Styles */
+#chat-container {
+    background: var(--chat-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 98%;
+    max-width: 1400px;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 1vh auto;
+    overflow: hidden;
+}
+
+/* Zone des messages avec défilement indépendant */
+#messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 2rem;
+    margin-top: 70px;
+    margin-bottom: 140px;
+    background: var(--chat-bg);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--secondary-bg);
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.2rem;
+    position: relative;
+    height: calc(98vh - 180px);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+}
+
+/* Style pour le dernier message */
+#messages-container .message:first-child {
+    margin-bottom: 30px;
+}
+
+/* Style amélioré pour la barre de défilement */
+#messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#messages-container::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+    border-radius: 4px;
+}
+
+#messages-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+#messages-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* En-tête fixe */
+.chat-header {
+    position: fixed;
+    top: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(98% - 2rem);
+    max-width: 1368px;
+    background: var(--secondary-bg);
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+.chat-header h3 {
+    color: var(--primary-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-shadow: var(--neon-shadow);
+}
+
+.message {
+    max-width: 60%;
+    padding: 0.8rem 1rem;
+    position: relative;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: var(--message-received);
+    z-index: 1;
+}
+
+.message.sent {
+    background: var(--message-sent);
+    margin-left: auto;
+    margin-right: 2rem;
+    border-radius: 12px 12px 0 12px;
+}
+
+.message.received {
+    margin-right: auto;
+    margin-left: 2rem;
+    border-radius: 12px 12px 12px 0;
+}
+
+.message .username {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    margin-bottom: 0.4rem;
+    font-weight: bold;
+    opacity: 0.9;
+}
+
+.message .content {
+    color: var(--text-color);
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.message .timestamp {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    text-align: right;
+    opacity: 0.8;
+}
+
+/* Animation pour les nouveaux messages */
+@keyframes messageSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.system-message {
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: rgba(0, 255, 0, 0.05);
+    border-radius: var(--border-radius);
+    animation: fadeIn 0.3s ease;
+}
+
+/* Pied de page fixe */
+.chat-footer {
+    position: fixed;
+    bottom: 1vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(80% - 2rem);
+    max-width: 1000px;
+    background: var(--secondary-bg);
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    z-index: 100;
+}
+
+.message-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--chat-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.4rem 0.6rem;
+    transition: all 0.3s ease;
+}
+
+.message-input-wrapper:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: var(--neon-shadow);
+}
+
+#message-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    padding: 0;
+    min-height: 20px;
+    max-height: 80px;
+    resize: none;
+    line-height: 1.3;
+}
+
+#message-input:focus {
+    outline: none;
+}
+
+button {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: var(--primary-color);
+    color: var(--chat-bg);
+    box-shadow: var(--neon-shadow);
+}
+
+.input-actions button {
+    padding: 0.3rem;
+    font-size: 0.9rem;
+}
+
+#send-btn {
+    padding: 0.3rem 0.6rem;
+    margin-left: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    #chat-container {
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+    }
+
+    .chat-header {
+        width: 100%;
+        max-width: none;
+        top: 0;
+        left: 0;
+        transform: none;
+        border-radius: 0;
+        padding: 0.6rem;
+    }
+
+    #messages-container {
+        width: 90%;
+        padding: 0.5rem;
+        margin-bottom: 80px;
+    }
+
+    .message {
+        max-width: 85%;
+        padding: 0.5rem 0.7rem;
+        margin: 0.3rem 0;
+    }
+
+    .message.sent {
+        margin-right: 0.5rem;
+    }
+
+    .message.received {
+        margin-left: 0.5rem;
+    }
+
+    .chat-footer {
+        width: 90%;
+        padding: 0.4rem;
+    }
+
+    .system-message-fixed {
+        width: 90%;
+    }
+}
+
+/* Ajustements pour les très petits écrans */
+@media screen and (max-width: 380px) {
+    .message {
+        max-width: 90%;
+        font-size: 0.8rem;
+    }
+
+    .message.sent {
+        margin-right: 0.3rem;
+    }
+
+    .message.received {
+        margin-left: 0.3rem;
+    }
+
+    #messages-container {
+        padding: 0.3rem;
+    }
+}
+
+/* Ajustements pour les tablettes */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #chat-container {
+        width: 95%;
+        height: 95vh;
+    }
+
+    #messages-container,
+    .chat-footer,
+    .chat-header {
+        width: 90%;
+    }
+
+    .message {
+        max-width: 75%;
+    }
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #00ff00;
+        --background-color: #0a0e17;
+        --chat-bg: #151b28;
+        --secondary-bg: #1a2332;
+    }
+}
+
+/* Media Queries pour le login */
+@media screen and (max-width: 480px) {
+    .login-box {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-box h2 {
+        font-size: 1.5rem;
+    }
+
+    .login-box .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .login-icon {
+        font-size: 2.5rem;
+    }
+
+    .input-group input {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+
+    button {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .login-box {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+
+    .login-icon {
+        margin-bottom: 1rem;
+    }
+
+    .input-group {
+        margin: 1rem 0;
+    }
+}
+
+/* Pour les très petits écrans */
+@media screen and (max-width: 320px) {
+    .login-box {
+        padding: 1.5rem 1rem;
+    }
+
+    .login-box h2 {
+        font-size: 1.3rem;
+    }
+
+    .login-icon {
+        font-size: 2rem;
+    }
+}
+
+/* Pour les grands écrans */
+@media screen and (min-width: 1200px) {
+    .login-box {
+        max-width: 450px;
+        padding: 3rem;
+    }
+
+    .login-box h2 {
+        font-size: 2rem;
+    }
+
+    .login-icon {
+        font-size: 3.5rem;
+    }
+}
+
+/* Styles pour les messages d'erreur et de succès */
+.error-message, .success-message {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+.error-message {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: #ff3e3e;
+}
+
+.success-message {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    color: var(--primary-color);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Style pour l'input désactivé pendant le cooldown */
+.input-group input:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Indicateur de sécurité */
+.security-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.security-indicator i {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Ajouter ces styles pour l'authentification */
+.auth-toggle {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.auth-toggle button {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.auth-toggle button.active {
+    background: var(--primary-color);
+    color: var(--chat-bg);
+    border-color: var(--primary-color);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.input-group input[type="password"] {
+    font-family: monospace;
+    letter-spacing: 0.2em;
+}
+
+.confirm-password {
+    display: none;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style pour les éléments désactivés */
+.input-group input:disabled {
+    background: var(--secondary-bg);
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Animation pour le message de blocage */
+.error-message.locked {
+    animation: pulse 2s infinite;
+    background: rgba(255, 0, 0, 0.2);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Styles améliorés pour les messages d'erreur */
+.error-message {
+    padding: 12px;
+    border-radius: var(--border-radius);
+    margin: 10px 0;
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: #ff3e3e;
+    animation: slideIn 0.3s ease;
+}
+
+.error-message.locked {
+    background: rgba(255, 0, 0, 0.15);
+    border-color: rgba(255, 0, 0, 0.4);
+}
+
+.error-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.error-content i {
+    font-size: 1.2rem;
+}
+
+/* Barre de progression pour le blocage */
+.progress-bar {
+    height: 2px;
+    background: rgba(255, 0, 0, 0.3);
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #ff3e3e;
+    transform-origin: left;
+}
+
+@keyframes progress {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+/* Animation du message de blocage */
+.error-message.locked {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Style pour la boîte de dialogue du mot de passe administrateur */
+.admin-password-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    background: var(--chat-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 90%;
+    max-width: 400px;
+}
+
+.admin-password-dialog.active {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.admin-password-dialog h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    text-shadow: var(--neon-shadow);
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.admin-password-dialog.active h3 {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+.admin-password-dialog .input-group {
+    margin-bottom: 1.5rem;
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+.admin-password-dialog.active .input-group {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.2s;
+}
+
+.admin-password-dialog input {
+    width: 100%;
+    padding: 12px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.admin-password-dialog input:focus {
+    border-color: var(--primary-color);
+    box-shadow: var(--neon-shadow);
+    outline: none;
+}
+
+.admin-password-dialog button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    transition-delay: 0.2s;
+}
+
+.admin-password-dialog.active button {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.admin-password-dialog .cancel-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+.admin-password-dialog .cancel-btn:hover {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background: rgba(255, 0, 0, 0.1);
+}
+
+/* Overlay pour l'effet de flou */
+.admin-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-overlay.active {
+    opacity: 1;
+}
+
+/* Style pour le message d'erreur dans la boîte de dialogue admin */
+.admin-password-dialog .error-container {
+    margin-bottom: 1rem;
+}
+
+.admin-password-dialog .admin-error {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    animation: shakeError 0.5s ease-in-out;
+}
+
+.admin-error i {
+    color: var(--error-color);
+}
+
+@keyframes shakeError {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Ajustements pour les grands écrans */
+@media screen and (min-width: 1600px) {
+    #chat-container {
+        max-width: 1600px;
+    }
+    
+    .chat-header, .chat-footer {
+        max-width: 1568px;
+    }
+}
+
+/* Style pour le picker d'emoji */
+.emoji-picker {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+    width: 280px;
+}
+
+.emoji-picker.active {
+    display: grid;
+}
+
+.emoji-picker span {
+    cursor: pointer;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.emoji-picker span:hover {
+    background: var(--chat-bg);
+    transform: scale(1.2);
+}
+
+/* Style pour les boutons d'action */
+.input-actions {
+    display: flex;
+    gap: 8px;
+    position: relative;
+}
+
+.input-actions button {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.input-actions button:hover {
+    color: var(--primary-color);
+    background: rgba(0, 255, 0, 0.1);
+}
+
+/* Style pour les messages système fixes */
+.system-message-fixed {
+    position: fixed;
+    top: calc(1vh + 60px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(80% - 2rem);
+    max-width: 1000px;
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 0.9rem;
+    z-index: 99;
+    animation: slideDown 0.3s ease, fadeOut 0.3s ease 9.7s;
+}
+
+/* Animation pour l'apparition et la disparition */
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Ajustement pour mobile */
+@media screen and (max-width: 768px) {
+    #messages-container {
+        margin-bottom: 100px;
+        padding: 0.8rem;
+    }
+
+    .message {
+        margin: 0.5rem 0;
+    }
+
+    .message:first-child {
+        margin-bottom: 15px;
+    }
+}
+
+#users-count {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    background: var(--chat-bg);
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+#users-count i {
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+/* Ajustement pour mobile */
+@media screen and (max-width: 768px) {
+    #users-count {
+        padding: 0.4rem 0.6rem;
+        gap: 6px;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+    
+    #users-count i {
+        font-size: 0.9rem;
+    }
+}
+
+/* Très petits écrans */
+@media screen and (max-width: 380px) {
+    #users-count {
+        padding: 0.3rem 0.5rem;
+        gap: 4px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Style pour la page de déconnexion */
+.logout-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background-color);
+}
+
+.logout-box {
+    background: var(--chat-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    animation: fadeIn 0.3s ease;
+}
+
+.logout-box i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.logout-box h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.logout-box p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.logout-box button {
+    background: var(--primary-color);
+    color: var(--chat-bg);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-box button:hover {
+    background: var(--primary-dark);
+    box-shadow: var(--neon-shadow);
+}
